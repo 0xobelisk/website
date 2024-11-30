@@ -1,0 +1,69 @@
+# World
+
+The world is the more central part of the framework, controlling the origin of the world and the associated query and add methods. For example, through the get method can get variable entity reference for entity modification operations. Add or uninstall schemas and remove entities through the add and remove methods.
+
+```rust
+module eps::world {
+    use sui::object::UID;
+    use sui::object;
+    use sui::tx_context::TxContext;
+    use sui::bag::Bag;
+    use sui::bag;
+    use eps::entity::{Entity, get_schemas};
+
+    struct World has key,store{
+        id: UID,
+        entities: Bag
+    }
+
+
+    public fun create_world(ctx: &mut TxContext):World{
+        World{
+            id:object::new(ctx),
+            entities:bag::new(ctx)
+        }
+    }
+
+
+    public fun get_mut_entity(world: &mut World,entity_id: u64): &mut Entity {
+        bag::borrow_mut<u64,Entity>(&mut world.entities,entity_id)
+    }
+
+    public fun add_entity_in_world<T:store>(world:&mut World,entity:T){
+        let entity_length = bag::length(&world.entities);
+        bag::add(&mut world.entities, entity_length, entity);
+    }
+
+    public fun remove_entity(world: &mut World,entity_id: u64) : Entity {
+       bag::remove<u64,Entity>(&mut world.entities,entity_id)
+    }
+
+    public fun add_schema<T: store>(world: &mut World, entity_id: u64,schema:T){
+        let entity = get_mut_entity(world,entity_id);
+        let schemas = get_schemas(entity);
+        let schemas_length =  bag::length(schemas);
+        bag::add(schemas, schemas_length, schema);
+    }
+
+    public fun remove_schema<T: store + drop >(world: &mut World, entity_id: u64,schema_id:u64){
+        let entity = get_mut_entity(world,entity_id);
+        let schemas= get_schemas(entity);
+        bag::remove<u64,T>(schemas,schema_id);
+    }
+
+}
+
+```
+Finally, through the contract initialization function, the create_world method is called to initialize a world to generate
+
+```rust
+module counter::main {
+
+     #[allow(unused_function)]
+    fun init(ctx: &mut TxContext){
+        let world = create_world(ctx);
+        transfer::public_share_object(world);
+    }
+}
+
+```

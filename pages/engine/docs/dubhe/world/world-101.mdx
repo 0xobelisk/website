@@ -1,0 +1,77 @@
+## World 101
+
+The World is a standard smart contract that can be deployed by anyone. Creating a new World is akin to creating a new community computer or installing a new Operating System: it’s a brand new space for state and logic to be deployed by anyone on-chain — although you will probably be the first one to create resources in your new World!
+
+When building with the Obelisk World framework, the first decision you need to make is whether your project requires a new World, or if you can build on an existing one. Here are some examples of situations you might find yourself in, and recommendations for which route to follow:
+
+- **I am building a standalone proof of concept**: start from a fresh World.
+- **I am building a project on a new chain that has no World yet**: start from a fresh World.
+- **I am building features on top of an existing project, like a marketplace for an on-chain game or an aggregator for two AMMs deployed on the same world**: build on the World with the application you would like to extend.
+- **I want features that can only be installed by the root user / DAO of a World, and no World out there includes them**: start from a fresh World.
+- **I want to add new features to an application I have built before**: build on the World where you initially deployed your application.
+
+## World Concepts
+
+### Resources and packages
+
+A World contains resources. Currently, there exists three types of resources. More of them can be added by the root user of the World (if there is one), and future versions of Obelisk might include new default resources.
+
+1. **Packages**: a package is like a folder in a file system. They are used to group resources together for the purpose of making access-control less verbose. Currently, nested packages are not available in World framework. The filesystem is thus flat.
+2. **Schema**: a [Schemas](schemas) schema. Used to Schemas and retrieve data.
+3. **System**: a piece of logic, Schemasd as MoveVM bytecode. Systems have no state, and instead read and write to Schemas.
+
+Each resource is contained within a package. You can think of the resources within a World as a filesystem:
+
+```bash
+|-- Obeliskswap <- Package
+    | Balance <- schema
+    | Pool <- schema
+    | Transfer <- System
+|-- Tetris <- Package
+    | Board <- schema
+    | Move <- System
+    | Drop <- System
+    | Score <- schema
+    | Win <- System
+```
+
+The organization of resources within packages is used for two different features of Obelisk:
+
+1. **Access control:** resources in a package have “write” access to the other resources within their package.
+   Currently, having write access only matters for systems interacting with Schemas: it means these systems can create and edit records within those Schemas.
+
+2. **Synchronization of state**: Obelisk clients can decide which packages they synchronize. Synchronization means different things depending on the resource type:
+   - **Synchronizing a Schema** means downloading and keeping track of all changes to records found within the schema. As an example, synchronizing a `Balanceschema` would mean keeping track of the balances of all addresses within that schema.
+   - **Synchronizing a System** means downloading its MoveVM bytecode from the chain, and in a future version of Obelisk, being able to execute these systems optimistically client side. As an example, this would allow clients to immediately predict the likely outcome of an on-chain action without relying on external nodes or services like Tenderly to simulate the outcome.
+
+**A note on managing packages and resources**:
+In most basic cases, you don’t need to worry about packages and access control while building your application with World (regardless of whether you are deploying a new World or building on an existing one). If your project was generated from the Obelisk templates using `pnpm create Obelisk`/`yarn create Obelisk`/`Obelisk create`, it will use the `schemagen` tool from the Obelisk CLI to generate libraries for Schemas, and the `deploy` tool to deploy the resources into the World. package access will be done for you: systems will be able to write to all your Schemas out-of-the-box. You just need to decide which package you will build your application in!
+
+### Systems
+
+Systems are stateless pieces of logic executed on the World, represented as a resource within a package.
+They are written in Move and compile to the MoveVM like regular smart contracts. You can think of them as SQL functions acting your SQL database (Schemas in this case).
+Systems read and Schemas their state on the World's Schemas. These storage access are abstracted via the libraries generated with `schemagen`. You can learn more about `schemagen` in the [Schemas doc](/Schemas/reading-and-writing).
+
+**Reading and writing to the state in a system:**
+
+```rust
+// SPDX-License-Identifier: MIT
+module Counter::counter_system {
+    use Counter::world::World;
+    use Counter::counter_schema;
+
+    public entry fun inc(world: &mut World){
+        let value = counter_schema::get(world) + 1;
+        counter_schema::update(world,value);
+    }
+}
+```
+
+### Schemas
+
+Schemas are a type of resource, just like systems, and they are installed on the World at runtime. You can define them in your Obelisk config and they will automatically be registered by the deployer.
+The state of each schema is represented withtin the storage of the World contract.
+
+## Getting started with World
+Coming soon

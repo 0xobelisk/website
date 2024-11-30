@@ -1,0 +1,20 @@
+# System
+
+As you can see, the obelisk engine system is accompanied by a developer-defined data structure derived from the instructions of the operating system in the previous article on the structure of the counter component, based on which you can create a counter_system to expose to the outside world to perform the operation transaction methods
+
+```rust
+
+module counter::system {
+    use eps::world::{World, get_mut_entity};
+    use eps::entity::get_component;
+
+
+    public entry fun counter_change(world:&mut World,entity_id: u64,component_id:u64){
+        let entity = get_mut_entity(world,entity_id);
+        let counter = get_component(entity,component_id);
+        counter::counter::counter_change(counter);
+    }
+}
+
+
+```

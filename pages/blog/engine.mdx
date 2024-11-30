@@ -1,0 +1,342 @@
+---
+title: Fully On-Chain Application Development Engine for Resource Security Programming
+date: 2024/01/01
+description: Fully On-Chain Application Development Engine for Resource Security Programming
+tag: "Engine"
+ogImage: /images/blog/turbo-1-10-0/x-card.png
+---
+
+# Fully On-Chain Application Development Engine for Resource Security Programming
+
+import { Authors } from '../../components/Authors'
+import Callout from '../../components/Callout'
+import ThemeAwareImage from '../../components/ThemeAwareImage'
+import Date from "../../components/blog/Date";
+
+<Date>
+  Thursday, January 1st, 2024
+</Date>
+
+<Authors authors={[
+  "web3henry",
+]} />
+
+## Background
+
+Fully on-chain applications have a long history and have been continuously updated with the development of blockchain technology. The unlocking of infrastructure has accelerated the birth of full-chain applications.
+
+For example, high-performance blockchains and modular blockchains have provided robust underlying platform support for full-chain applications, which has significantly improved the previously high-cost design compromises (such as using traditional back-end storage for data, and only putting assets on-chain in Web2.5-type applications).
+
+This has also unlocked more complex use cases like DeFi, gaming, AW, etc. However, we still face certain development challenges and security issues in the early stages of developing complex full-chain applications.
+
+## Introduction to Obelisk Engine: A Fully on-chain Application Development Engine for Resource Security Programming
+
+Our solution is Obelisk Engine, a full-stack application development engine based on resource security programming.
+
+It is built on top of the Move language standard and aims to simplify the complexity of building [Move](https://github.com/move-language/move) applications by providing a tightly integrated software stack. This allows developers to focus on creating applications without having to develop the supporting auxiliary technical infrastructure required for application implementation. Obelisk Engine provides a solution for building and deploying complex application types (such as DeFi, Gaming, and AW) on the blockchain.
+
+---
+
+## What is a Fully on-chain Application Development Engine?
+
+First, let's clarify two concepts: full-chain application and development engine.
+
+### Firstly, what is a full-chain application?
+
+A full-chain application is generally understood as an application where the data state and operation instructions are stored on the blockchain. Common examples include DeFi products and games that are fully stored on the blockchain. Full-chain applications minimize the concept of the client, and the client becomes a user-friendly interface option for accessing the full-chain application's API.
+
+### Secondly, what is a development engine?
+
+A development engine is essentially an extension of a complete workflow, such as a development framework. In addition to providing developers with a complete methodological process, it further encapsulates the structured storage of data and the instruction rules for operations. It forms a unique set of standard paradigms, greatly reducing the difficulty of development and improving the efficiency of application development. Additionally, it can even be further integrated with the characteristics of the target platform, such as the blockchain itself, to provide easier access and reduce usage costs for business development.
+
+---
+
+## Design Principles
+
+Obelisk Labs' first product, Obelisk Engine, is built based on a set of core principles. It revolves around three main principles:
+
+![alt obelisk](/images/docs/obelisk-1.png)
+
+### （1）Complete Workflow
+
+The engine inherits the basic functionality of traditional DApp application development frameworks and provides developers with a complete workflow. This workflow encompasses the entire process, starting from designing the business data model, automatically generating data model contracts, writing business logic, and integrating deployment, upgrade, and user interface development.
+
+* Developers can begin by designing the business data model according to their application requirements. This involves defining the data structure, relationships, and functionalities needed for the application.
+
+* Once the business data model is designed, the engine automates the process of generating data model contracts based on the design. This eliminates the need for developers to manually write the contract code, saving time and reducing the chances of errors.
+
+* After the data model contracts are generated, developers can focus on writing the business logic of the application. This involves defining the operations, rules, and behaviors that govern how the application functions. The engine provides a user-friendly interface and tools to facilitate the coding and testing of the business logic.
+
+* Once the business logic is implemented, developers can seamlessly integrate the deployment, upgrade, and user interface development processes. The engine provides features and tools to simplify these tasks, allowing developers to easily deploy and upgrade their applications on the blockchain network. It also provides integration capabilities for user interface development, enabling developers to create user-friendly interfaces that interact with the underlying blockchain-based application.
+
+* By providing a complete workflow, the engine aims to streamline the development process and provide developers with a seamless experience from designing the data model to deploying and managing their full-chain applications.
+
+----------------------------------------------------------------
+
+![alt obelisk](/images/docs/obelisk-2.png)
+
+### (2）Structured Storage Design and Instruction Optimization
+
+By encapsulating the data storage format of the target platform, we provide a syntax tree transformation similar to an intermediate language (IR). The "Schemas" feature allows developers to configure and write schemas to translate business data types into the data types provided by the target platform.
+
+Additionally, we provide standard instructions (syntactic sugar) for manipulating "Schemas".
+
+* The "Schemas" feature allows developers to define the structure and organization of the data stored on the target platform. This can include defining tables, fields, relationships, and constraints. By configuring and writing "Schemas", developers can map their business data models to the data storage format supported by the target platform.
+
+* Furthermore, we provide a set of standard instructions (or syntactic sugar) that developers can use to manipulate and optimize the operations performed on the "Schemas". These instructions provide a higher-level interface for developers to interact with the structured storage and optimize the execution of operations. For example, developers can use instructions to query, filter, sort, and aggregate data stored in the "Schemas".
+
+* By providing a structured storage design and instruction optimization, we aim to simplify the interaction with the target platform's data storage and optimize the performance and efficiency of operations performed on the data. This allows developers to focus on the business logic of their applications without having to handle the low-level details of the data storage and access.
+
+![alt obelisk](/images/docs/obelisk-3.png)
+
+### （3）Plugin Integration and Cross-Platform Compatibility
+
+Obelisk Engine further adapts to the target platform, taking Sui and Sui-Move as examples. We integrate PTBs developed in the Sui network into the framework, allowing developers to use pre-packaged SDK instructions to execute their business logic during development. Additionally, Obelisk Engine supports plugin integration with different third-party technologies, such as AI and ZK, to provide optional choices for business technology selection.
+
+* Due to the unified data model design, businesses developed using Obelisk Engine can be deployed to other Move ecosystem networks such as Aptos, Rooch, Movement, Initia, with minimal modifications.
+
+* By integrating PTBs from the Sui network into Obelisk Engine, developers can leverage the SDK instructions provided by the Sui network to execute their business logic. This simplifies the development process and allows developers to focus on their core business requirements.
+
+* Moreover, Obelisk Engine supports plugin integration, enabling developers to incorporate third-party technologies such as AI and ZK into their applications. This provides flexibility in selecting the appropriate technologies for specific business needs and enhances the functionality and capabilities of the applications.
+
+* Furthermore, thanks to the unified data model design, applications developed using Obelisk Engine can be easily deployed to other Move-based blockchain networks. This compatibility allows businesses to leverage different Move ecosystem networks, such as Aptos, Rooch, Movement, Initia, without significant modifications to the application codebase.
+
+* By providing plugin integration and cross-platform compatibility, Obelisk Engine aims to offer developers a flexible and extensible development environment. Developers can leverage pre-built SDK instructions, integrate third-party technologies, and deploy their applications to various Move-based blockchain networks, expanding the potential reach and capabilities of their applications.
+
+## Conclusion
+
+Obelisk Engine offers a user-friendly framework for developing Move applications. With this framework, developers can create various composable, extensible, and interoperable applications such as DeFi, gaming, and AW. We provide a powerful and scalable toolchain to assist developers in designing, building, deploying/upgrading their applications, and solving various technical challenges within the ecosystem.
+
+Meanwhile, we encourage you to visit our website, explore our documentation, and dive into the codebase to obtain more information!
+
+We sincerely appreciate Henry's feedback and comments.
+
+[//]: # (Turborepo 1.10 introduces new features to improve your local development experience:)
+
+[//]: # ()
+[//]: # (- [**Code Generators**]&#40;#code-generators&#41;: Use `turbo gen` to generate source code, including creating new workspaces and copying existing ones.)
+
+[//]: # (- [**Improved Environment Variable Inputs**]&#40;#improved-environment-variable-inputs&#41;: It's now easier to depend on environment variables with wildcards and `.env` support.)
+
+[//]: # (- [**New Environment Modes**]&#40;#environment-modes&#41;: You can now specify `--env-mode=strict` to control environment variables that are included in your task hashes.)
+
+[//]: # ()
+[//]: # (Update today with)
+
+[//]: # ()
+[//]: # (```)
+
+[//]: # (npx @turbo/codemod migrate)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (## Code Generators)
+
+[//]: # ()
+[//]: # (<ThemeAwareImage)
+
+[//]: # (  className="my-4 p-4 border-[#f3f7fd] dark:border-[#1c2428] border-2 rounded-xl")
+
+[//]: # (  light={{)
+
+[//]: # (    alt: 'turbo-gen',)
+
+[//]: # (    src: '/images/blog/turbo-1-10-0/turbo-gen-light.gif',)
+
+[//]: # (    props: {)
+
+[//]: # (      width: 600,)
+
+[//]: # (      height: 205)
+
+[//]: # (    })
+
+[//]: # (  }})
+
+[//]: # (  dark={{)
+
+[//]: # (    alt: 'turbo-gen',)
+
+[//]: # (    src: '/images/blog/turbo-1-10-0/turbo-gen-dark.gif',)
+
+[//]: # (    props: {)
+
+[//]: # (      width: 600,)
+
+[//]: # (      height: 215)
+
+[//]: # (    })
+
+[//]: # (  }})
+
+[//]: # (/>)
+
+[//]: # ()
+[//]: # (Turborepo Generators allow you to add new code to your repository in a predictable, structured way.)
+
+[//]: # (Previously, you would need to copy code yourself and manually add dependencies to your new workspace. With Generators,)
+
+[//]: # (we've automated the process of creating new workspaces and integrating them into your repository.)
+
+[//]: # ()
+[//]: # (You can [create a blank workspace from scratch]&#40;/repo/docs/core-concepts/monorepos/code-generation#add-an-empty-workspace&#41;, [copy an existing workspace]&#40;/repo/docs/core-concepts/monorepos/code-generation#copy-an-existing-workspace&#41;, or even create custom generators)
+
+[//]: # (for more control. Custom generators leverage [Plop]&#40;https://plopjs.com/&#41; configurations, a common template definition strategy used in the JavaScript ecosystem.)
+
+[//]: # ()
+[//]: # ([Custom generators]&#40;/repo/docs/core-concepts/monorepos/code-generation#custom-generators&#41; can also be used to scaffold more granular sets of code than workspaces. You can significantly speed up tasks like:)
+
+[//]: # ()
+[//]: # (- [Adding new components to your UI library]&#40;https://github.com/vercel/turbo/blob/main/examples/basic/packages/ui/turbo/generators/config.ts&#41;)
+
+[//]: # (- Creating new unit tests)
+
+[//]: # (- Generating a new MDX blog post &#40;In fact, this very post was created with a [Turborepo generator]&#40;https://github.com/vercel/turbo/blob/main/docs/turbo/generators/config.ts&#41;!&#41;)
+
+[//]: # ()
+[//]: # (Get started with your first generator by running:)
+
+[//]: # ()
+[//]: # (```)
+
+[//]: # (turbo gen)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (For more, check out the [documentation]&#40;/repo/docs/core-concepts/monorepos/code-generation&#41;.)
+
+[//]: # ()
+[//]: # (## Improved Environment Variable Inputs)
+
+[//]: # ()
+[//]: # (### Support for `.env` files)
+
+[//]: # ()
+[//]: # ([`.env` files]&#40;https://www.dotenv.org/docs/&#41; are commonly used to load environment variables. This can cause problems when running with `turbo`, because these variables can be [invisible]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#invisible-environment-variables&#41;, and are not easily)
+
+[//]: # (included in the hash for your task. This problem could cause unintended cache hits while working locally.)
+
+[//]: # ()
+[//]: # (Turborepo now makes this much easier with automatic support for `.env` files.)
+
+[//]: # ()
+[//]: # (To ensure that Turborepo includes these variables in your hash, use the `dotEnv` key. For example, here is a configuration for a Next.js application:)
+
+[//]: # ()
+[//]: # (```json)
+
+[//]: # ({)
+
+[//]: # (  "$schema": "https://turbo.build/schema.json",)
+
+[//]: # (  "globalDotEnv": [".env"],)
+
+[//]: # (  "pipeline": {)
+
+[//]: # (    "build": {)
+
+[//]: # (      "dotEnv": [".env.production.local", ".env.local", ".env.production", ".env"])
+
+[//]: # (    },)
+
+[//]: # (    "dev": {)
+
+[//]: # (      "dotEnv": [".env.development.local", ".env.local", ".env.development", ".env"])
+
+[//]: # (    },)
+
+[//]: # (    "test": {)
+
+[//]: # (      "dotEnv": [".env.test.local", ".env.test", ".env"])
+
+[//]: # (    })
+
+[//]: # (  })
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (<Callout>)
+
+[//]: # (  This feature does **not** handle system environment variables. If you are not using `.env` files outside of development, make sure your environment variables are still enumerated in either [env]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#pipelinetaskenv&#41;, or [globalEnv]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#globalenv&#41; to ensure they are included in your hash.)
+
+[//]: # (</Callout>)
+
+[//]: # ()
+[//]: # (For more, check out the [documentation]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#env-files&#41;.)
+
+[//]: # ()
+[//]: # (### Environment Variable Wildcards)
+
+[//]: # ()
+[//]: # (Large applications can end up with many environment variables in their `turbo.json`. This can make your configuration difficult to manage and maintain.)
+
+[//]: # ()
+[//]: # (With wildcards, you can now specify patterns of variables to include in your hash.)
+
+[//]: # ()
+[//]: # (```json)
+
+[//]: # ({)
+
+[//]: # (  "$schema": "https://turbo.build/schema.json",)
+
+[//]: # (  "pipeline": {)
+
+[//]: # (    "build": {)
+
+[//]: # (      "env": ["ACME_*"])
+
+[//]: # (    })
+
+[//]: # (  })
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (For more, check out the [documentation]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#wildcards&#41;.)
+
+[//]: # ()
+[//]: # (### Environment modes)
+
+[//]: # ()
+[//]: # (Turborepo environment modes are now out of [experimental mode]&#40;/repo/docs/faq#what-does-experimental-mean&#41; and are available for general use.)
+
+[//]: # ()
+[//]: # (By default, and when `turbo run` is invoked with `--env-mode=loose`, all environment variables from the machine are made available to every single Turborepo task.)
+
+[//]: # (This ensures the greatest compatibility while accepting some risk that a task will implicitly have access to a environment variable that is not specified in your `turbo.json`.)
+
+[//]: # ()
+[//]: # (In the new strict mode, when `turbo` is invoked with `--env-mode=strict`, only [important system environment variables]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#system-environment-variables&#41; and environment variables enumerated inside of `turbo.json` will be made available to a task.)
+
+[//]: # ()
+[//]: # (For more, check out the [documentation]&#40;/repo/docs/core-concepts/caching/environment-variable-inputs#loose--strict-environment-modes&#41;.)
+
+[//]: # ()
+[//]: # (## Community)
+
+[//]: # ()
+[//]: # (Since releasing [Turborepo v1.9]&#40;/blog/turbo-1-9-0&#41; we've seen incredible adoption and community growth:)
+
+[//]: # ()
+[//]: # (- [21.5k+ GitHub Stars]&#40;https://github.com/vercel/turbo&#41;)
+
+[//]: # (- [1.2M+ weekly NPM downloads]&#40;https://www.npmjs.com/package/turbo&#41;)
+
+[//]: # (- 85 years of compute time saved through [Remote Caching on Vercel]&#40;https://vercel.com/docs/concepts/monorepos/remote-caching&#41;)
+
+[//]: # ()
+[//]: # (Turborepo is the result of the combined work of all of its contributors, including our core team:)
+
+[//]: # ()
+[//]: # (- [Jared]&#40;https://github.com/jaredpalmer&#41;, [Greg]&#40;https://github.com/gsoltis&#41;, [Nathan]&#40;https://github.com/nathanhammond&#41;, [Thomas]&#40;https://github.com/tknickman&#41;, [Mehul]&#40;https://github.com/mehulkar&#41;, [Chris]&#40;https://github.com/chris-olszewski&#41;, [Nicholas]&#40;https://github.com/NicholasLYang&#41;, and [Alexander]&#40;https://github.com/arlyon&#41;)
+
+[//]: # ()
+[//]: # (Thank you for your continued support, feedback, and collaboration to make Turborepo your build tool of choice.)

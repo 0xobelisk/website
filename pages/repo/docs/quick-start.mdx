@@ -1,0 +1,47 @@
+---
+title: Engine Quick start
+description: Start Building DApp with Engine
+---
+
+import { TurbopackQuickstartArea } from "../../../components/TurbopackQuickstart";
+import Callout  from "../../../components/Callout";
+import { Tabs, Tab } from "../../../components/Tabs";
+import FullTurboCTA from "../../../components/FullTurboCTA";
+
+# Getting Started
+
+If you haven’t already, check out the Introduction to learn more about Obelisk Engine before beginning.
+
+In this tutorial you will create your first Obelisk project and gain an understanding of its structure. We will also explore Obelisk’s built in dev tools.
+
+Before we begin let’s make sure your local environment is setup with the proper prerequisites.
+
+## Prerequisites
+
+1. git ([download](https://git-scm.com/downloads))
+3. node.js (v18+) ([download](https://nodejs.org/en/download/))
+4. pnpm (after installing node: `npm install --global pnpm`)
+
+If you are using Windows:
+
+**Windows steps**
+
+1. install git bash (gitforwindows.org)
+2. install `nodejs`, including “native modules” (nodejs.org/en/download) (re native modules: just keep the checkmark, it’s enabled by default in the installer)
+
+## Project setup
+
+To start off let’s create your Obelisk project from a template by running the following pnpm command.
+
+
+```bash
+pnpm create obelisk-world my-project
+```
+
+At this point you will see the option of choosing a template—as of writing the two options are **nextjs**, **cocos**. For the sake of this tutorial any of them works, but examples from the **nextjs** template will be used here.
+
+After selecting your template you can run the app by switching into the project directory (`cd my-project`) and starting the development server.
+
+```bash
+pnpm run dev
+```

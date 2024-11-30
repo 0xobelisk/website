@@ -1,0 +1,35 @@
+# Entity
+
+In the obelisk engine, an entity constructed by move is composed of a set of structures with different types of capabilities
+
+```rust
+ module eps::entity {
+    use sui::bag::Bag;
+    use sui::bag;
+    use sui::tx_context::TxContext;
+
+
+    struct Entity has store  {
+        schemas: Bag
+    }
+
+
+    public fun create_entity(ctx: &mut TxContext):Entity{
+        Entity{
+            schemas: bag::new(ctx)
+        }
+    }
+
+    public fun get_schemas(entity: &mut Entity): &mut Bag {
+        &mut entity.schemas
+    }
+
+    public fun get_schema<T: store>(entity: &mut Entity,schema_id:u64): &mut T {
+        bag::borrow_mut<u64,T>(&mut entity.schemas,schema_id)
+    }
+
+}
+
+```
+
+In the entity source file, you can create an empty entity by loading the file and using the create_entity method, or you can get any schema or collection of schemas attached to the entity by using the get related method.

@@ -1,0 +1,19 @@
+import { DEFAULT_BARS } from '../../../components/pages/pack-home/PackBenchmarks'
+import { DocsBenchmarksGraph } from '../../../components/pages/pack-home/DocsBenchmarksGraph';
+import Callout from '../../../components/Callout';
+import { ThemedImageFigure } from '../../../components/image/ThemedImageFigure';
+import { HMR_BARS } from '../../../components/pages/pack-home/PackBenchmarks'
+
+# Benchmarks
+
+We created a test generator that makes an application with a variable amount of modules to benchmark cold startup and file updating tasks. This generated app includes entries for these tools:
+
+- Obelisk
+- MUD
+- Dojo
+- ARC
+
+### Cold startup time
+
+[//]: # ()
+<DocsBenchmarksGraph category="cold" bars={DEFAULT_BARS} />

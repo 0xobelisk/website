@@ -1,0 +1,47 @@
+# Schema
+
+In the world of Obelisk Engine, schemas are structural data types customized by the developer You can add and hang schemas of any structural type to entities, and the internal implementation is handled by the underlying paradigm methods.
+
+  Give an example.
+
+```rust
+module counter::counter {
+
+    use sui::object::UID;
+    use sui::tx_context::TxContext;
+    use sui::object;
+
+    struct Counter has key, store {
+        id: UID,
+        number:u256
+    }
+
+    public fun create_counter(ctx: &mut TxContext): Counter{
+        Counter{
+            id: object::new(ctx),
+            number:0u256
+        }
+    }
+
+    public fun counter_change(counter: &mut Counter) {
+        counter.number = counter.number + 1u256;
+    }
+}
+
+```
+
+You build a world of counters and create custom counter structures with corresponding create and change methods
+
+```rust
+module counter::main {
+
+     /// add your custom struct to your entity
+    public entry fun set_counter_schema_to_entity(world:&mut World,entity_id:u64,ctx: &mut TxContext){
+        let counter = create_counter(ctx);
+        add_schema(world,entity_id,counter);
+    }
+}
+
+```
+
+Finally you can hook your custom structure to the entity you created via the add_schema method

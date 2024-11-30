@@ -1,0 +1,35 @@
+---
+title: Prerequisites | Obelisk
+description: Prerequisites
+---
+
+import Callout  from "../../../../components/Callout";
+
+# Environment Configuration FAQ
+
+<Callout type="default">
+    Disclaimer
+    
+    This is work in progress. Mechanisms and values are susceptible to change.
+</Callout>
+
+## About Sui Binaries
+
+### `libpq.5.dylib (no such file)`
+
+If you downloaded the sui-test-validator binary via the [official release](./prerequisites#method-1-install-by-downloading), you will most likely encounter the following problem.
+
+```bash
+
+dyld[72001]: Library not loaded: /opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.dylib
+  Referenced from: <CCD1A8DC-F608-3EC8-B932-77D43EAE4872> /Users/admin/.sui/bin/sui-test-validator
+  Reason: tried: '/opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.dylib' (no such file), '/opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.dylib' (no such file), '/usr/local/lib/libpq.5.dylib' (no such file), '/usr/lib/libpq.5.dylib' (no such file, not in dyld cache)
+[1]    72001 abort      sui-test-validator
+```
+
+**Solution** [more information](https://stackoverflow.com/questions/9023482/library-not-loaded-usr-local-lib-libpq-5-4-dylib)
+
+```bash
+# please check your homebrew path and postgresql@14 path.
+sudo ln -s /opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.dylib /usr/local/lib/libpq.5.dylib
+```

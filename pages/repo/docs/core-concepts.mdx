@@ -1,0 +1,41 @@
+---
+title: Core Concepts
+description: Learn about the innovative architecture that powers Obelisk Engine's speed improvements.
+---
+
+# Core Concepts
+
+Let’s dive deep into the internals of Obelisk to figure out why it’s so good.
+
+## The Obelisk Engine
+
+Obelisk Engine is so good because it’s built on a reusable library for Sui Move Here’s how it works:
+
+![插图1](/images/docs/engine/core.png "MD X 图片处理!")
+
+### Entity Component System Protocol (EPS) Built with Move Language for Out-of-the-Box Use
+
+- EPS is a protocol for an entity component system (ECS) built using the Move language. It allows developers to inherit the underlying code of EPS and engage in business development by importing dependencies into their project directory.
+- EPS is based on the concept of an entity component system and incorporates the principles of protocol-oriented programming. It focuses primarily on the functionality of objects and defines specifications for methods and properties of a particular type through protocols.
+- The goal of EPS is to achieve the features of protocol-oriented programming on top of the ECS inheritance.
+
+### Efficient Data Indexing and Transaction Processing
+
+- Developing business applications using EPS can be more complex compared to using the standard framework and library of the Move ecosystem. EPS involves custom structures, and large-scale storage, and potentially requires atomic transaction merging and splitting operations.
+- The Obelisk SDK provides advanced abstractions that simplify EPS configuration, parsing, and encoding/decoding processes, enabling developers to efficiently access the business built through EPS.
+- For transaction processing, batch processing can execute multiple atomic transactions simultaneously. In scenarios like game development, where transaction processing demands are higher, some transaction types can be simulated off-chain, similar to the concept of sequencers. The Obelisk Engine will provide related services and transaction batch sponsorship in the future to lower the entry barrier.
+
+### Upgrades and Data Migration
+
+- Obelisk offers a standard specification for architectural upgrades and data migration rules for business contracts built using EPS.
+- It also provides a user-friendly front-end interface for smooth project migration.
+
+### Custom Plugin Integration (ZK, AI, VRF, Oracle)
+
+- The engine allows for the integration of third-party on-chain or off-chain code contributions as plugins.
+- These plugins can be utilized to integrate different technologies and data to meet the needs of the entire blockchain application.
+
+### Cross-Platform API and SDK Integration
+
+- The engine supports the integration of EPS-based business code with other user-targeted platforms.
+- Considering the diverse terminal platforms used by target users, the engine supports third-party contributions from the open-source community, providing interaction code for different programming languages (JavaScript/TypeScript/Go/Rust/C#/C++/Dart) and various game engines/frameworks (Unity/Unreal/Cocos/Godot). This enables developers to code and interact in various environments.

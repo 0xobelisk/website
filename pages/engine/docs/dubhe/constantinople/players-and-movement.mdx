@@ -1,0 +1,190 @@
+import { CollapseCode } from "../../../../../components/CollapseCode";
+
+# 1. Players and movement
+
+**In this section, we will accomplish the following:**
+
+1. Spawn in each unique wallet address as an entity with the `player`, `movable`, and `position` components.
+2. Operate on a player's `position` component with a system to create movement.
+3. Optimistically render player movement in the client.
+
+## 1.1. Create the components as schemas
+
+To create schemas in Obelisk we are going to navigate to the `obelisk.config.ts` file. You can define schemas, their types, their values, and other types of information here. Obelisk then autogenerates all of the files needed to make sure your app knows these schemas exist.
+
+We're going to start by defining three new schemas:
+
+1. `player: 'bool'` → determine which entities are players (e.g. distinct wallet addresses)
+2. `movable: 'bool'` → determine whether or not an entity can move
+3. `position: { valueType: { x: 'uint32', y: 'uint32' } }` → determine which position an entity is located on a 2D grid
+
+The syntax is as follows:
+
+<CollapseCode>
+
+```tsx filename="obelisk.config.ts" {8-16} copy showLineNumbers
+import { ObeliskConfig } from '@0xobelisk/common';
+
+export default obeliskConfig = {
+    name: 'constantinople',
+    description: 'constantinople',
+    systems: ['map_system', 'encounter_system'],
+    schemas: {
+        movable: "bool",
+        player: "bool",
+        position: {
+          valueType: {
+            x: "u64",
+            y: "u64",
+          },
+        },
+  },
+} as ObeliskConfig;
+```
+
+</CollapseCode>
+
+You can generate the corresponding Schemas by executing the following commands
+```bash copy
+pnpm run worldgen
+```
+
+
+## 1.2. Create the system and its methods
+
+In Obelisk, a system can have an arbitrary number of methods inside of it. Since we will be moving players around on a 2D map, we started the codebase off by creating a system that will encompass all of the methods related to the map: `map_system.move` in `systems`.
+
+### move_t method
+
+Before we add in the functionality of users moving we need to make sure each user is being properly identified as a player with the position and movable table. The former gives us a means of operating on it to create movement, and the latter allows us to grant the entity permission to use the move system.
+
+To solve for these problems we can add the **register method**, which will assign the `player`, `position`, and `movable` schemas we created earlier, inside of `map_system.move`.
+
+<CollapseCode>
+
+```move filename="map_system.move" {2-8,12-19} copy showLineNumbers
+module constantinople::map_system {
+    use sui::tx_context::TxContext;
+    use sui::tx_context;
+    use constantinople::world::World;
+    use constantinople::player_schema;
+    use constantinople::position_schema;
+    use constantinople::movable_schema;
+
+    /// error already register
+    const EAlreadyRegister: u64 = 0;
+
+    public entry fun register(world: &mut World, x: u64, y: u64, ctx: &mut TxContext) {
+        let player = tx_context::sender(ctx);
+        assert!(!player_schema::contains(world, player), EAlreadyRegister);
+
+        player_schema::set(world, player, true);
+        position_schema::set(world, player, x, y);
+        movable_schema::set(world, player, true);
+  }
+
+    fun distance(from_x: u64, from_y: u64, to_x: u64, to_y: u64) : u64 {
+        let delta_x = if(from_x > to_x) {from_x - to_x } else { to_x - from_x };
+        let delta_y = if(from_y > to_y) { from_y - to_y } else { to_y - from_y };
+        delta_x + delta_y
+    }
+}
+```
+
+</CollapseCode>
+
+As you may be able to tell already, writing systems and their methods in Obelisk is similar to writing regular smart contracts. The key difference is that their state is defined and stored in schemas rather than in the system contract itself.
+
+### Move method
+
+Next we’ll add the **move method** to `map_system.move`. This will allow us to move users (e.g. the user's wallet address as their entityID) by updating their `position` table.
+
+<CollapseCode>
+
+```move filename="map_system.move" {23-31} copy showLineNumbers
+module constantinople::map_system {
+    use sui::tx_context::TxContext;
+    use sui::tx_context;
+    use constantinople::world::World;
+    use constantinople::player_schema;
+    use constantinople::position_schema;
+    use constantinople::movable_schema;
+
+    /// error already register
+    const EAlreadyRegister: u64 = 0;
+    /// error can only move to adjacent spaces
+    const EOnlyMoveToAdjacentSpaces: u64 = 6;
+
+    public entry fun register(world: &mut World, x: u64, y: u64, ctx: &mut TxContext) {
+        let player = tx_context::sender(ctx);
+        assert!(!player_schema::contains(world, player), EAlreadyRegister);
+
+        player_schema::set(world, player, true);
+        position_schema::set(world, player, x, y);
+        movable_schema::set(world, player, true);
+    }
+
+    public entry fun move_t(world: &mut World, x: u64, y: u64, ctx: &mut TxContext) {
+        let player = tx_context::sender(ctx);
+
+        let (from_x, from_y) = position_schema::get(world, player);
+        // error can only move to adjacent spaces
+        assert!(distance(from_x, from_y, x, y) == 1, EOnlyMoveToAdjacentSpaces);
+
+        position_schema::set(world, player, x, y);
+    }
+
+    fun distance(from_x: u64, from_y: u64, to_x: u64, to_y: u64) : u64 {
+        let delta_x = if(from_x > to_x) {from_x - to_x } else { to_x - from_x };
+        let delta_y = if(from_y > to_y) { from_y - to_y } else { to_y - from_y };
+        delta_x + delta_y
+    }
+}
+    ```
+
+</CollapseCode>
+
+This method will allow users to interact with a smart contract, auto-generated by Obelisk, to update their position. However, we are not yet able to visualize this on the client, so let's add that to make it feel more real.
+
+We’ll fill in the `move_to` methods in our map.
+
+<CollapseCode>
+```tsx filename="Map.ts"
+    let stepTransactionsItem = stepTransactions;
+    setStepTransactions([]);
+    const obelisk = new Obelisk({
+    networkType: NETWORK,
+    packageId: PACKAGE_ID,
+    metadata: contractMetadata,
+    // secretKey: PRIVATEKEY,
+});
+    const stepTxB = new TransactionBlock();
+    let tx_world_id = stepTxB.pure(WORLD_ID);
+    let tx_clock = stepTxB.pure('0x6');
+
+    for (let historyDirection of stepTransactionsItem) {
+    let params = [tx_world_id, stepTxB.pure(historyDirection[0]), stepTxB.pure(historyDirection[1]), tx_clock];
+    // obelisk.tx.map_system.move_t(stepTxB, params, undefined, true);
+    (await obelisk.tx.map_system.move_t(stepTxB, params, undefined, true)) as TransactionResult;
+}
+
+    try {
+    const response = await wallet.signAndExecuteTransactionBlock({
+    transactionBlock: stepTxB,
+    options: {
+    showEffects: true,
+    showObjectChanges: true,
+},
+});
+    console.log(response);
+} catch (e) {
+    alert('failed');
+    console.error('failed', e);
+}
+```
+
+</CollapseCode>
+
+Try moving the player around with the keyboard now. It should feel much snappier!
+
+Now that we have players, movement, and a basic map, let's start making improvements to the map itself.
